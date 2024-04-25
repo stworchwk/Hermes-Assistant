@@ -87,11 +87,11 @@ const add_cart_element_checking = (e) => {
   );
   if (add_cart_element.length > 0) {
     let add_cart_element_item = add_cart_element[0];
-    if (add_cart_element_item.querySelector('.button-content-container') === null){
+    if (add_cart_element_item.querySelector('.button-content-container') === null) {
       setTimeout(() => {
         add_cart_element_checking();
       }, 100);
-    }else{
+    } else {
       simulate(add_cart_element[0], "click");
       viewcart_element_checking();
     }
@@ -146,7 +146,7 @@ const checkout_order_element_checking_click = () => {
     setTimeout(() => {
       checkout_order_element_checking_click();
     }, 100)
-  }else{
+  } else {
     accept_checkbox_checking();
   }
 }
@@ -163,6 +163,52 @@ const checkout_order_element_checking = (e) => {
   }
 };
 
+const checkout_submit_login_element_checking_click = (e) => {
+  let checkout_submit_login_element = document.querySelectorAll('button[type="submit"][name="continue"]');
+  if (checkout_submit_login_element.length > 0) {
+    simulate(checkout_submit_login_element[0], "click");
+    setTimeout(() => {
+      checkout_submit_login_element_checking_click();
+    }, 100);
+  }
+}
+
+const checkout_submit_login_element_checking = (e) => {
+  let checkout_submit_login_element = document.querySelectorAll('button[type="submit"][name="continue"]');
+  if (checkout_submit_login_element.length > 0) {
+    simulate(checkout_submit_login_element[0], "click");
+    checkout_submit_login_element_checking_click();
+  } else {
+    setTimeout(() => {
+      checkout_submit_login_element_checking();
+    }, 100);
+  }
+}
+
+const checkout_login_element_checking_click = (e) => {
+  let checkout_login_element = document.querySelectorAll('button[name="sign or log in"]');
+  if (checkout_login_element.length > 0) {
+    simulate(checkout_login_element[0], "click");
+    setTimeout(() => {
+      checkout_login_element_checking_click();
+    }, 100);
+  } else {
+    checkout_submit_login_element_checking();
+  }
+}
+
+const checkout_login_element_checking = (e) => {
+  let checkout_login_element = document.querySelectorAll('button[name="sign or log in"]');
+  if (checkout_login_element.length > 0) {
+    simulate(checkout_login_element[0], "click");
+    checkout_login_element_checking_click();
+  } else {
+    setTimeout(() => {
+      checkout_login_element_checking();
+    }, 100);
+  }
+}
+
 
 window.addEventListener(
   "load",
@@ -170,13 +216,17 @@ window.addEventListener(
     chrome.storage.sync.get("automate", function (result) {
       if (result.automate) {
         let current_uri = window.location.href;
+        console.log(current_uri);
         if (current_uri.includes("/product")) {
-            add_cart_element_checking();
+          add_cart_element_checking();
         } else if (current_uri.includes("/cart")) {
-            checkout_cart_element_checking();
-            checkout_order_element_checking();
+          checkout_cart_element_checking();
+          checkout_order_element_checking();
+          checkout_login_element_checking();
         } else if (current_uri.includes("/checkout")) {
-            checkout_order_element_checking();
+          checkout_order_element_checking();
+        } else if (current_uri.includes("/checkout/login")) {
+          checkout_login_element_checking();
         }
       }
     });
@@ -185,7 +235,10 @@ window.addEventListener(
 );
 
 chrome.storage.onChanged.addListener((changes, namespace) => {
-  for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
+  for (let [key, {
+      oldValue,
+      newValue
+    }] of Object.entries(changes)) {
     if (key === 'automate') {
       window.location.reload();
     }
