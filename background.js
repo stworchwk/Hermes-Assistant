@@ -116,3 +116,10 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
     }
   }
 });
+
+chrome.commands.onCommand.addListener(function(command) {
+  if (command === "change_input") {
+    chrome.storage.sync.set({ "automate": false }, function() {
+    });
+  }
+});
