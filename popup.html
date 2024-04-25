@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="popup.css">
+</head>
+
+<body class="hma-body">
+  <div class="hma-titleContainer">
+    <div></div>
+    <label class="hma-title">Hermes Assistant</label>
+  </div>
+  <div class="hma-searchkeywordContainer">
+    <label class="hma-searchkeywordLabel">Keyword:</label>
+    <input class="hma-searchkeywordInput" id="hma-search_keyword" type="text" placeholder="Search keyword" />
+  </div>
+  <div class="hma-localeContainer">
+    <label class="hma-localeLabel">Locale:</label>
+    <input class="hma-localeInput" id="hma-locale_code" type="text" placeholder="Locale code | e.g. th, us" maxlength="2" />
+  </div>
+  <div class="hma-intervalNumberContainer">
+    <label class="hma-intervalNumberLabel">Interval:</label>
+    <input class="hma-intervalNumberInput" id="hma-interval_number" type="number" placeholder="Interval" />
+  </div>
+  <div class="hma-automateContainer">
+    <label class="hma-automateLabel">Automate:</label><br />
+    <label class="hma-automateInputLabel">
+      <input class="hma-automateInput" id="hma-automate" type="checkbox"/>
+      <span class="slider round"></span>
+    </label>
+  </div>
+  <div class="hma-buttonContainer">
+    <button type="button" class="hma-btn hma-btn-start" id="msa-handle" data-status="true">
+      Start
+    </button>
+  </div>
+  <div class="hma-message" id="hma-message" style="display: none;">
+    ###########
+  </div>
+  <script src="popup.js"></script>
+</body>
+
+</html>
