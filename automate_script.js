@@ -176,12 +176,18 @@ const checkout_submit_login_password_element_checking_click = (e) => {
 const checkout_submit_login_password_element_checking = (e) => {
   let loginPasswordInputEle = document.getElementById('password');
   if (loginPasswordInputEle !== null) {
-    loginPasswordInputEle.value = "$Stworchwk22101993";
-    loginPasswordInputEle.dispatchEvent(
-      new Event("input", { bubbles: true, cancelable: true })
-    );
+    chrome.storage.sync.get("password", function (result) {
+      loginPasswordInputEle.value = result.password || "";
+      loginPasswordInputEle.dispatchEvent(
+        new Event("input", {
+          bubbles: true,
+          cancelable: true
+        })
+      );
 
-    checkout_submit_login_password_element_checking_click();
+      checkout_submit_login_password_element_checking_click();
+    });
+
   } else {
     setTimeout(() => {
       checkout_submit_login_password_element_checking();
@@ -198,7 +204,7 @@ const checkout_login_email_element_checking_click = (e) => {
     }, 100);
   } else {
     setTimeout(() => {
-      //checkout_submit_login_password_element_checking();
+      checkout_submit_login_password_element_checking();
     }, 100);
   }
 }
@@ -208,12 +214,20 @@ const checkout_login_email_element_checking_click = (e) => {
 const checkout_login_email_element_checking = (e) => {
   let loginEmailInputEle = document.getElementById('email');
   if (loginEmailInputEle !== null) {
-    loginEmailInputEle.value = "stworchwk@gmail.com";
-    loginEmailInputEle.dispatchEvent(
-      new Event("input", { bubbles: true, cancelable: true })
-    );
 
-    checkout_login_email_element_checking_click();
+    chrome.storage.sync.get("email", function (result) {
+      loginEmailInputEle.value = result.email || "";
+      loginEmailInputEle.dispatchEvent(
+        new Event("input", {
+          bubbles: true,
+          cancelable: true
+        })
+      );
+
+      setTimeout(() => {
+        checkout_login_email_element_checking_click();
+      }, 100);
+    });
   } else {
     setTimeout(() => {
       checkout_login_email_element_checking();
@@ -227,7 +241,6 @@ window.addEventListener(
     chrome.storage.sync.get("automate", function (result) {
       if (result.automate) {
         let current_uri = window.location.href;
-        console.log(current_uri);
         if (current_uri.includes("/product")) {
           add_cart_element_checking();
         } else if (current_uri.includes("/cart")) {

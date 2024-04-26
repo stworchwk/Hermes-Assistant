@@ -4,6 +4,8 @@ let intervalNumberInput = document.getElementById("hma-interval_number")
 let msaHandleEle = document.getElementById("msa-handle");
 let hmaMessage = document.getElementById("hma-message");
 let hmaAutomate = document.getElementById("hma-automate");
+let hmaEmail = document.getElementById("hma-email");
+let hmaPassword = document.getElementById("hma-password");
 
 const buttonHandler = () => {
   chrome.storage.sync.get("scripthandle", function (result) {
@@ -75,6 +77,30 @@ chrome.storage.sync.get("automate", function (result) {
   }
 });
 
+chrome.storage.sync.get("email", function (result) {
+  if (result.email === undefined) {
+    hmaEmail.value = "";
+
+    chrome.storage.sync.set({
+      "email": ''
+    }, function () {});
+  } else {
+    hmaEmail.value = result.email || ""
+  }
+});
+
+chrome.storage.sync.get("password", function (result) {
+  if (result.password === undefined) {
+    hmaPassword.value = "th";
+
+    chrome.storage.sync.set({
+      "password": ''
+    }, function () {});
+  } else {
+    hmaPassword.value = result.password || ""
+  }
+});
+
 buttonHandler();
 
 // ===========================================================================
@@ -110,6 +136,24 @@ hmaAutomate.onchange = (e) => {
     "automate": value
   }, function () {
     console.log('automate is set to ' + value);
+  });
+}
+
+hmaEmail.onchange = (e) => {
+  const value = e.target.value
+  chrome.storage.sync.set({
+    "email": value
+  }, function () {
+    console.log('email is set to ' + value);
+  });
+}
+
+hmaPassword.onchange = (e) => {
+  const value = e.target.value
+  chrome.storage.sync.set({
+    "password": value
+  }, function () {
+    console.log('password is set to ' + value);
   });
 }
 
