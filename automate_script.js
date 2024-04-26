@@ -163,57 +163,63 @@ const checkout_order_element_checking = (e) => {
   }
 };
 
-const checkout_submit_login_element_checking_click = (e) => {
+const checkout_submit_login_password_element_checking_click = (e) => {
   let checkout_submit_login_element = document.querySelectorAll('button[type="submit"][name="continue"]');
   if (checkout_submit_login_element.length > 0) {
     simulate(checkout_submit_login_element[0], "click");
     setTimeout(() => {
-      checkout_submit_login_element_checking_click();
+      checkout_submit_login_password_element_checking_click();
     }, 100);
   }
 }
 
-const checkout_submit_login_element_checking = (e) => {
-  let checkout_submit_login_element = document.querySelectorAll('button[type="submit"][name="continue"]');
-  if (checkout_submit_login_element.length > 0) {
-    simulate(checkout_submit_login_element[0], "click");
-    checkout_submit_login_element_checking_click();
+const checkout_submit_login_password_element_checking = (e) => {
+  let loginPasswordInputEle = document.getElementById('password');
+  if (loginPasswordInputEle !== null) {
+    loginPasswordInputEle.value = "$Stworchwk22101993";
+    loginPasswordInputEle.dispatchEvent(
+      new Event("input", { bubbles: true, cancelable: true })
+    );
+
+    checkout_submit_login_password_element_checking_click();
   } else {
     setTimeout(() => {
-      checkout_submit_login_element_checking();
+      checkout_submit_login_password_element_checking();
     }, 100);
   }
 }
 
-const checkout_login_element_checking_click = (e) => {
+const checkout_login_email_element_checking_click = (e) => {
   let checkout_login_element = document.querySelectorAll('button[name="sign or log in"]');
   if (checkout_login_element.length > 0) {
     simulate(checkout_login_element[0], "click");
     setTimeout(() => {
-      checkout_login_element_checking_click();
+      checkout_login_email_element_checking_click();
     }, 100);
   } else {
-    checkout_submit_login_element_checking();
+    setTimeout(() => {
+      //checkout_submit_login_password_element_checking();
+    }, 100);
   }
 }
 
-const checkout_login_element_checking = (e) => {
+
+
+const checkout_login_email_element_checking = (e) => {
   let loginEmailInputEle = document.getElementById('email');
   if (loginEmailInputEle !== null) {
-    simulate(loginEmailInputEle, "click");
-  }
+    loginEmailInputEle.value = "stworchwk@gmail.com";
+    loginEmailInputEle.dispatchEvent(
+      new Event("input", { bubbles: true, cancelable: true })
+    );
 
-  let checkout_login_element = document.querySelectorAll('button[name="sign or log in"]');
-  if (checkout_login_element.length > 0) {
-    simulate(checkout_login_element[0], "click");
-    checkout_login_element_checking_click();
+    checkout_login_email_element_checking_click();
   } else {
     setTimeout(() => {
-      checkout_login_element_checking();
+      checkout_login_email_element_checking();
     }, 100);
   }
 }
-
 
 window.addEventListener(
   "load",
@@ -227,11 +233,11 @@ window.addEventListener(
         } else if (current_uri.includes("/cart")) {
           checkout_cart_element_checking();
           checkout_order_element_checking();
-          checkout_login_element_checking();
+          checkout_login_email_element_checking();
         } else if (current_uri.includes("/checkout")) {
           checkout_order_element_checking();
         } else if (current_uri.includes("/checkout/login")) {
-          checkout_login_element_checking();
+          checkout_login_email_element_checking();
         }
       }
     });

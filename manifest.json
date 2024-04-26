@@ -26,8 +26,8 @@
     "commands": {
       "change_input": {
         "suggested_key": {
-            "default": "Ctrl+Shift+X",
-            "mac": "Command+Shift+X"
+            "default": "Ctrl+X",
+            "mac": "Command+X"
         },
         "description": "Automate Stop"
       }
