@@ -177,13 +177,15 @@ const checkout_submit_login_password_element_checking = (e) => {
   let loginPasswordInputEle = document.getElementById('password');
   if (loginPasswordInputEle !== null) {
     chrome.storage.sync.get("password", function (result) {
-      loginPasswordInputEle.value = result.password || "";
-      loginPasswordInputEle.dispatchEvent(
-        new Event("input", {
-          bubbles: true,
-          cancelable: true
-        })
-      );
+      if (result.password !== "") {
+        loginPasswordInputEle.value = result.password || "";
+        loginPasswordInputEle.dispatchEvent(
+          new Event("input", {
+            bubbles: true,
+            cancelable: true
+          })
+        );
+      }
 
       checkout_submit_login_password_element_checking_click();
     });
@@ -216,14 +218,15 @@ const checkout_login_email_element_checking = (e) => {
   if (loginEmailInputEle !== null) {
 
     chrome.storage.sync.get("email", function (result) {
-      loginEmailInputEle.value = result.email || "";
-      loginEmailInputEle.dispatchEvent(
-        new Event("input", {
-          bubbles: true,
-          cancelable: true
-        })
-      );
-
+      if (result.email !== "") {
+        loginEmailInputEle.value = result.email || "";
+        loginEmailInputEle.dispatchEvent(
+          new Event("input", {
+            bubbles: true,
+            cancelable: true
+          })
+        );
+      }
       setTimeout(() => {
         checkout_login_email_element_checking_click();
       }, 100);
