@@ -198,9 +198,9 @@ const checkout_login_element_checking_click = (e) => {
 }
 
 const checkout_login_element_checking = (e) => {
-  let loginEmailInputEle = document.querySelectorAll('button[id="email"][name="email"][type="email"]');
-  if (loginEmailInputEle.length > 0) {
-    simulate(loginEmailInputEle[0], "click");
+  let loginEmailInputEle = document.getElementById('email');
+  if (loginEmailInputEle !== null) {
+    simulate(loginEmailInputEle, "click");
   }
 
   let checkout_login_element = document.querySelectorAll('button[name="sign or log in"]');
