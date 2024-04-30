@@ -1,5 +1,6 @@
 let searchkeywordInput = document.getElementById("hma-search_keyword")
 let localeInput = document.getElementById("hma-locale_code")
+let languageInput = document.getElementById("hma-language_code")
 let intervalNumberInput = document.getElementById("hma-interval_number")
 let msaHandleEle = document.getElementById("msa-handle");
 let hmaMessage = document.getElementById("hma-message");
@@ -50,6 +51,18 @@ chrome.storage.sync.get("locale", function (result) {
     }, function () {});
   } else {
     localeInput.value = result.locale || ""
+  }
+});
+
+chrome.storage.sync.get("language", function (result) {
+  if (result.language === undefined) {
+    languageInput.value = "en";
+
+    chrome.storage.sync.set({
+      "language": 'en'
+    }, function () {});
+  } else {
+    languageInput.value = result.language || ""
   }
 });
 
@@ -119,6 +132,14 @@ localeInput.onchange = (e) => {
     "locale": value
   }, function () {
     console.log('locale is set to ' + value);
+  });
+}
+languageInput.onchange = (e) => {
+  const value = e.target.value
+  chrome.storage.sync.set({
+    "language": value
+  }, function () {
+    console.log('language is set to ' + value);
   });
 }
 intervalNumberInput.onchange = (e) => {

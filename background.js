@@ -2,6 +2,7 @@ let res_message = null;
 let running_status = false;
 let searchkeyword = '';
 let locale = 'th';
+let language = 'en';
 let interval = 5;
 
 const log_message = (message) => {
@@ -12,7 +13,7 @@ const log_message = (message) => {
   });
 };
 
-const product_check = (locale, keyword, interval, obj) => {
+const product_check = (locale, language, keyword, interval, obj) => {
   log_message("Product checking...");
   if (obj.status === 200) {
     let product_objs = obj.body;
@@ -21,7 +22,7 @@ const product_check = (locale, keyword, interval, obj) => {
       let product_item_objs = product_objs.products.items;
       product_item_objs = product_item_objs.slice(0, 1);
       for (var product_item_obj of product_item_objs) {
-        let result_uri = `/${locale}/en${product_item_obj.url}`;
+        let result_uri = `/${locale}/${language}${product_item_obj.url}`;
 
         log_message(`Product uri : <a href="https://hermes.com${result_uri}" target="_blank">${result_uri}</a>`);
 
@@ -36,7 +37,7 @@ const product_check = (locale, keyword, interval, obj) => {
       log_message(`Product checking : product not found`);
 
       setTimeout(() => {
-        product_call(locale, keyword, interval);
+        product_call(locale, language, keyword, interval);
       }, interval * 1000);
     }
   } else {
@@ -47,10 +48,10 @@ const product_check = (locale, keyword, interval, obj) => {
   }
 };
 
-const product_call = (locale, keyword, interval) => {
+const product_call = (locale, language, keyword, interval) => {
   if (running_status) {
     fetch(
-      `https://www.hermes.com/${locale}/en/search/?s=${encodeURIComponent(
+      `https://www.hermes.com/${locale}/${language}/search/?s=${encodeURIComponent(
         keyword
       )}#|`
     )
@@ -69,7 +70,7 @@ const product_call = (locale, keyword, interval) => {
 
         for (const [key, value] of Object.entries(hermes_state_object)) {
           if (key.includes("/products")) {
-            product_check(locale, keyword, interval, value);
+            product_check(locale, language, keyword, interval, value);
             break;
           }
         }
@@ -105,12 +106,16 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
           locale = result.locale || ""
         });
 
+        chrome.storage.sync.get("language", function(result) {
+          language = result.language || ""
+        });
+
         chrome.storage.sync.get("interval", function(result) {
           interval = result.interval || ""
         });
 
         setTimeout(e => {
-          product_call(locale, searchkeyword, interval);
+          product_call(locale, language, searchkeyword, interval);
         }, 1000);
       }
     }
