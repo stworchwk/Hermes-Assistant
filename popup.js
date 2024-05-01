@@ -104,7 +104,7 @@ chrome.storage.sync.get("email", function (result) {
 
 chrome.storage.sync.get("password", function (result) {
   if (result.password === undefined) {
-    hmaPassword.value = "th";
+    hmaPassword.value = "";
 
     chrome.storage.sync.set({
       "password": ''
