@@ -68,11 +68,20 @@ const product_call = (locale, language, keyword, interval) => {
         let hermes_state = document.getElementById(`hermes-state`);
         let hermes_state_object = JSON.parse(hermes_state.innerHTML);
 
+        let hasProductObj = false;
         for (const [key, value] of Object.entries(hermes_state_object)) {
           if (key.includes("3902308812")) {
+            hasProductObj = true;
             product_check(locale, language, keyword, interval, value);
             break;
           }
+        }
+
+        if (!hasProductObj) {
+          log_message(`Product checking : product not found`);
+          setTimeout(() => {
+            product_call(locale, language, keyword, interval);
+          }, interval * 1000);
         }
       })
       .catch((error) => {
