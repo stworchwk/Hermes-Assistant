@@ -15,8 +15,8 @@ const log_message = (message) => {
 
 const product_check = (locale, language, keyword, interval, obj) => {
   log_message("Product checking...");
-  if (obj.status === 200) {
-    let product_objs = obj.body;
+  if (obj.s === 200) {
+    let product_objs = obj.b;
     if (product_objs.total > 0) {
       log_message(`Product checking : product found (${product_objs.total})`);
       let product_item_objs = product_objs.products.items;
@@ -69,7 +69,7 @@ const product_call = (locale, language, keyword, interval) => {
         let hermes_state_object = JSON.parse(hermes_state.innerHTML);
 
         for (const [key, value] of Object.entries(hermes_state_object)) {
-          if (key.includes("/products")) {
+          if (key.includes("3902308812")) {
             product_check(locale, language, keyword, interval, value);
             break;
           }

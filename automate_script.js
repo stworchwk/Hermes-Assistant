@@ -154,6 +154,7 @@ const checkout_order_element_checking_click = () => {
 const checkout_order_element_checking = (e) => {
   let checkout_order_element = document.querySelectorAll('button[name="undefined"][data-testid="See order details"]');
   if (checkout_order_element.length > 0) {
+    console.log(checkout_order_element);
     simulate(checkout_order_element[0], "click");
     checkout_order_element_checking_click()
   } else {
@@ -245,14 +246,21 @@ window.addEventListener(
       if (result.automate) {
         let current_uri = window.location.href;
         if (current_uri.includes("/product")) {
+          console.log('Product');
           add_cart_element_checking();
-        } else if (current_uri.includes("/cart")) {
           checkout_cart_element_checking();
+          checkout_login_email_element_checking();
           checkout_order_element_checking();
+        } else if (current_uri.includes("/cart")) {
+          console.log('Cart');
+          checkout_order_element_checking();
+          checkout_cart_element_checking();
           checkout_login_email_element_checking();
         } else if (current_uri.includes("/checkout")) {
+          console.log('Checkout');
           checkout_order_element_checking();
         } else if (current_uri.includes("/checkout/login")) {
+          console.log('Checkout Login');
           checkout_login_email_element_checking();
         }
       }
