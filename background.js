@@ -13,6 +13,16 @@ const log_message = (message) => {
   });
 };
 
+const product_automate = (url) => {
+  chrome.tabs.create({
+    url: `https://hermes.com${url}`
+  }, tab => {
+    chrome.tabs.executeScript(tab.id, {
+      file: 'content.js'
+    });
+  });
+};
+
 const product_check = (locale, language, keyword, interval, obj) => {
   log_message("Product checking...");
   if (obj.s === 200) {
@@ -28,6 +38,8 @@ const product_check = (locale, language, keyword, interval, obj) => {
 
         chrome.storage.sync.set({ "uriResults": result_uri }, function() {
         });
+        
+        product_automate(result_uri);
 
         chrome.storage.sync.set({ "scripthandle": true }, function() {
           console.log('interval is set to True');

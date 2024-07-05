@@ -229,7 +229,6 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
     } else if (key === 'uriResults') {
       if (newValue !== undefined && newValue !== null) {
         hmaMessage.style.backgroundColor = '#0d6efd';
-        product_automate(newValue);
       } else {
         hmaMessage.style.backgroundColor = 'rgb(82, 82, 82)';
       }
@@ -239,13 +238,3 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
   }
 })
 // =============================================================================================
-
-const product_automate = (url) => {
-  chrome.tabs.create({
-    url: `https://hermes.com${url}`
-  }, tab => {
-    chrome.tabs.executeScript(tab.id, {
-      file: 'content.js'
-    });
-  });
-};
