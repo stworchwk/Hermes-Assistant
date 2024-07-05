@@ -83,11 +83,13 @@ const product_call = (locale, language, keyword, interval) => {
         console.log(hermes_state_object);
         let hasProductObj = false;
         for (const [key, value] of Object.entries(hermes_state_object)) {
-          if (value["b"]["products"] !== undefined) {
-            hasProductObj = true;
-            product_check(locale, language, keyword, interval, value);
-            break;
-          }
+          try{
+            if (value["b"]["products"] !== undefined) {
+              hasProductObj = true;
+              product_check(locale, language, keyword, interval, value);
+              break;
+            }
+          }catch{}
         }
 
         if (!hasProductObj) {
